@@ -16,7 +16,6 @@ import { Label } from "@/components/ui/label";
 
 const CheckInAction = () => {
   const [studentId, setStudentId] = useState("");
-  const [timestamp, setTimestamp] = useState("");
   const addCheckin = useStore((state) => state.addCheckin);
 
   const handleSubmit = async (e) => {

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+const API_URL = process.env.REACT_APP_API_URL;
 export const useStore = create((set, get) => ({
     currentFocus: 'studentdb',
 
@@ -7,34 +8,34 @@ export const useStore = create((set, get) => ({
     students: [],
   checkins: [],
   fetchStudents: async () => {
-    const res = await fetch("http://127.0.0.1:8000/students");
+    const res = await fetch(`${API_URL}/students`);
     const data = await res.json();
     set({ students: data });
   },
   addStudent: async (student) => {
-    await fetch("http://127.0.0.1:8000/students", {
+    await fetch(`${API_URL}/students`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(student),
     });
     // Refresh students after adding
-    const res = await fetch("http://127.0.0.1:8000/students");
+    const res = await fetch(`${API_URL}/students`);
     const data = await res.json();
     set({ students: data });
   },
   fetchCheckins: async () => {
-    const res = await fetch("http://127.0.0.1:8000/checkins");
+    const res = await fetch(`${API_URL}/checkins`);
     const data = await res.json();
     set({ checkins: data });
   },
   addCheckin: async (checkin) => {
-    await fetch("http://127.0.0.1:8000/checkins", {
+    await fetch(`${API_URL}/checkin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(checkin),
     });
     // Refresh checkins after adding
-    const res = await fetch("http://127.0.0.1:8000/checkins");
+    const res = await fetch(`${API_URL}/checkins`);
     const data = await res.json();
     set({ checkins: data });
   },
