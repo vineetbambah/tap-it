@@ -1,9 +1,8 @@
 import os
 from pymongo import MongoClient, ASCENDING
-from pymongo.errors import DuplicateKeyError
 from dotenv import load_dotenv
 
-load_dotenv()  # load variables from .env if present
+load_dotenv()  
 
 MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
 MONGODB_DBNAME = os.getenv("MONGODB_DBNAME", "attendance_db")
@@ -20,12 +19,11 @@ def get_client():
 def get_db():
     global _db
     if _db is None:
-        client = get_client()
-        _db = client[MONGODB_DBNAME]
-        _ensure_indexes()
+        _db = get_client()[MONGODB_DBNAME]
+        _ensure_indexes(_db)
     return _db
 
-def _ensure_indexes():
-    db = _db or get_db()
+def _ensure_indexes(db):
+    """Create necessary indexes safely."""
     db.students.create_index([("student_id", ASCENDING)], unique=True)
     db.checkins.create_index([("timestamp", ASCENDING)])
