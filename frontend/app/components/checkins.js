@@ -1,33 +1,41 @@
+"use client"
+import React, { useEffect } from "react";
+import { useStore } from "../store";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
-const CheckIns = () => {
+const Checkins = () => {
+  const checkins = useStore((state) => state.checkins);
+  const fetchCheckins = useStore((state) => state.fetchCheckins);
+
+  useEffect(() => {
+    fetchCheckins();
+  }, [fetchCheckins]);
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Invoice</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
+          <TableHead>Student ID</TableHead>
+          <TableHead>Timestamp</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell className="font-medium">INV001</TableCell>
-          <TableCell>Paid</TableCell>
-          <TableCell>Credit Card</TableCell>
-          <TableCell className="text-right">$250.00</TableCell>
-        </TableRow>
+        {checkins.map((checkin, idx) => (
+          <TableRow key={idx}>
+            <TableCell>{checkin.student_id}</TableCell>
+            <TableCell>{checkin.timestamp}</TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
-  )
-}
-export default CheckIns;
+  );
+};
+
+export default Checkins;

@@ -1,10 +1,13 @@
 import { useStore } from "../store";
+import CheckInAction from "./checkinAction";
+import StudentAction from "./studentAction";
 const Action = () => {
     const currentFocus = useStore((state) => state.currentFocus)
     return (
-        <div className="w-full flex flex-end">
-            {currentFocus==='studentdb'?<button>Add Student</button>:<button>Add Check-In</button> }
+        <div className="w-full flex justify-end">
+            {currentFocus==='studentdb'?<StudentAction/>:<CheckInAction/> }
         </div>
     )
 }
 export default Action;
+

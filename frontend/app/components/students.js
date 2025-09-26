@@ -1,33 +1,43 @@
+"use client"
+import React, { useEffect } from "react";
+import { useStore } from "../store";
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/components/ui/table"
 
 const Students = () => {
-  return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">Invoice</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow>
-          <TableCell className="font-medium">INV001</TableCell>
-          <TableCell>Paid</TableCell>
-          <TableCell>Credit Card</TableCell>
-          <TableCell className="text-right">$250.00</TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
-  )
-}
+    const students = useStore((state) => state.students);
+    const fetchStudents = useStore((state) => state.fetchStudents);
+
+    useEffect(() => {
+        fetchStudents();
+    }, [fetchStudents]);
+
+    return (
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    <TableHead className="w-[100px]">Student ID</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>E-Mail</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                {students.map((student) => (
+                    <TableRow key={student.student_id}>
+                        <TableCell className="font-medium">{student.student_id}</TableCell>
+                        <TableCell>{student.name}</TableCell>
+                        <TableCell>{student.email}</TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>
+        </Table>
+    );
+};
+
 export default Students;
